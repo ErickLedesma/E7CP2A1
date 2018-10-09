@@ -28,5 +28,14 @@ print nombres_p
 puts ''
 
 # 4
+nombres_size = nombres.map { |item| item.size }
+print nombres_size
+puts ''
+
+# 5
+nombres_constnt = nombres.map { |item| item.gsub('a','').gsub('e','').gsub('i','').gsub('o','').gsub('u','') }
+print nombres_constnt
+puts ''
+
 
 
