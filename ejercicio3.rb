@@ -16,99 +16,64 @@
 # 10. Opción 9: Muestra dos listas de personas, una por cada género.
 # 11. El menú debe repetirse hasta que el usuario ingrese la opción 10 (salir)
 
+require_relative 'metodos'
+
+alternativas = ['Ingresar datos personas', 'Editar datos personas', 'Eliminar una persona',
+                'Muestra cantidad de personas', 'Muestra las comunas de las personas',
+                'Lista personas entre 20 y 25 años', 'Suma de las edades de todas las personas',
+                'Muestra el promedio de edades', 'Separar por genero','Salir' ]
 alumnos = []
-alumnos = [ { Nombre: 'Juan', Edad: 28, Comuna: 'Providencia', Genero: 'Masculino'} ]
+alumnos = [ { Nombre: 'Juan', Edad: 28, Comuna: 'Providencia', Genero: 'Masculino'},
+            { Nombre: 'Pedro', Edad: 24, Comuna: 'Las Condes', Genero: 'Masculino'},
+            { Nombre: 'Camila', Edad: 22, Comuna: 'Las Condes', Genero: 'Femenino'}  ]
 
-print alumnos
-puts ''
+opcion = 0
+while opcion != alternativas.count do
+    InOut.imprime_menu(alternativas)
 
-# 2
-puts "Ingresa un alumno"
-alumno = gets.chomp
-puts "Ingresa Edad"
-edad = gets.chomp.to_i
-puts "Ingresa Comuna"
-comuna = gets.chomp
-puts "Ingresa Genero"
-genero = gets.chomp
-h = { Nombre: alumno, Edad: edad, Comuna: comuna, Genero: genero }
-alumnos.push( h )
-
-print alumnos
-puts ''
-
-# 3
-puts "Ingresa un alumno"
-alumno = gets.chomp
-edad = alumno
-puts "Ingresa Edad"
-edad = gets.chomp.to_i
-puts "Ingresa Comuna"
-comuna = gets.chomp
-puts "Ingresa Genero"
-genero = gets.chomp
-h = { Nombre: alumno, Edad: edad, Comuna: comuna, Genero: genero }
-alumnos.push( h )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    opcion = InOut.solicita_opcion(alternativas)
+ 
+    case opcion
+        when 1     # Ingresar Datos de Personas 
+            alumno_arr = InOut.ingresa_alumno(true, alumnos)
+            alumno_h = { Nombre: alumno_arr[0], Edad: alumno_arr[1], 
+                         Comuna: alumno_arr[2], Genero: alumno_arr[3] }
+            alumnos << alumno_h 
+            print alumnos            
+        when 2     # Editar datos de personas
+            alumno_arr = InOut.ingresa_alumno(false, alumnos)
+            alumnos = Ops.agrega_alumno(alumno_arr, alumnos)
+            print alumnos    
+        when 3     # Eliminar una Persona
+            nombre = InOut.ingresa_nombre(alumnos)
+            indice = Ops.elimina_alumno(nombre, alumnos)
+            print alumnos
+        when 4     # Muestra cantidad de personas
+            puts "Existen #{alumnos.size} alumnos en el curso"    
+        when 5     # Muestra las comunas de las personas
+            comunas = Ops.solo_comunas(alumnos)
+            puts comunas    
+        when 6     # Lista personas entre 20 y 25 años
+            alumnos_rangos = Ops.rango_edades(20, 25, alumnos)
+            puts alumnos_rangos    
+        when 7     # Suma las edades de todas las personas
+            alumnos_edades = Ops.solo_edades(alumnos)
+            suma_edades = alumnos_edades.inject(:+)
+            puts suma_edades    
+        when 8     # Muestra el promedio de edades
+            alumnos_edades = Ops.solo_edades(alumnos)
+            suma_edades = alumnos_edades.inject(:+)
+            puts (suma_edades / alumnos.size.to_f).round(3)    
+        when 9     # Separar por Genero
+            alumnos_agrupados = Ops.agrupar_generos(alumnos)
+            print alumnos_agrupados
+        end 
+end     
 
 
-# inventario = {"Notebooks": 4, "PC_Escritorio": 6, "Routers": 10, "Impresoras": 6}
-# opcion = 0
-# while opcion != 7 do
-#     puts "Ingrese una opción
-#           1 - Agregar un item
-#           2 - Eliminar un item
-#           3 - Actualizar Información
-#           4 - Ver Stock
-#           5 - Ver item con mayor stock
-#           6 - Verificar un Item
-#           7 - Salir"
-#     opcion = gets.chomp.to_i
-#     case opcion
-#         when 1 
-#             puts 'Ingrese un Item y valor, separado por coma'
-#             ingreso = gets.chomp.gsub(' ', '_')
-#             arry1 = []
-#             arry1 = ingreso.scan(/\w+/)
-#             arry1[0] = arry1[0].to_sym
-#             arry2 = []
-#             arry2.push arry1
-#             inventario = inventario.merge(arry2.to_h)
-#             print  inventario
-#             puts ''
-#         when 2 
-#             puts 'Ingrese Item a Eliminar'
-#             ingreso = gets.chomp.gsub(' ', '_').to_sym
-#             inventario.delete(ingreso)
-#             puts inventario
-#         when 3 
-#             puts 'Ingresa el Item a Actualizar y su Stock'
-#             ingreso = gets.chomp.gsub(' ', '_')
-#             arry1 = []
-#             arry1 = ingreso.scan(/\w+/)
-#             arry1[0] = arry1[0].to_sym
-#             arry2 = []
-#             arry2.push arry1   
-#         when 4 
-#             puts '4'
-#         when 5 
-#             puts '5'
-#         when 6 
-#             puts '6'
-#     end 
-# end    
+
+
+
+
 
 
